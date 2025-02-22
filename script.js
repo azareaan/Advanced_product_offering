@@ -104,6 +104,12 @@ const populateCategoryFilter = () => {
     });
 }
 
+const filterByPrice = () => {
+    const maxPrice = document.getElementById("price-filter").value;
+    const filteredProducts = products.filter(product => product.price <= maxPrice);
+    displayProducts(filteredProducts);
+}
+
 document.addEventListener("DOMContentLoaded",fetchProducts);
 
 document.addEventListener("onchange",filterByCategory);
