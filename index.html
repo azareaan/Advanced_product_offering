@@ -1,21 +1,22 @@
 <html lang="en">
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <h2> Management System</h2>
- <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h2> Management System</h2>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <h1>Products</h1>
- <input type="text" id="search" placeholder="Search..." oninput="debounceSearch()">
- <select name="" id="category-filter" onchange="filterByCategory()">
- <option value="">Loading categories...</option>
- </select>
- <div id="loading" style="display: none;">Loading products...</div>
- <div id="products-list">
- </div>
- <h2>Similar products</h2>
-<!-- <input type="number" id="price-filter" placeholder="Max Price..." oninput="filterByPrice()">-->
- <div id="similar-products"></div>
- <script src="script.js"></script>
+    <h1>Products</h1>
+    <input type="text" id="search" placeholder="Search..." oninput="debounceSearch()">
+    <select name="" id="category-filter" onchange="filterByCategory()">
+        <option value="">All category</option>
+    </select>
+    <div id="loading" style="display: none;">Loading products...</div>
+    <div id="products-list"></div>
+    <h2>Similar products</h2>
+    <input type="number" id="price-filter" placeholder="Max Price..." oninput="filterByPrice()">
+    <div id="similar-products"></div>
+
+    <!-- add script -->
+    <script src="script.js"></script>
 </body>
 </html>
