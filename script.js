@@ -1,7 +1,7 @@
 const API_URL="https://fakestoreapi.com/products";
 let products = [];
 let selectedCategory=null;
-
+let categoriesSet = new Set();
 
 const fetchProducts = async () =>{
     try{
@@ -14,7 +14,9 @@ const fetchProducts = async () =>{
         const newProducts = await response.json();
         localStorage.setItem("products",JSON.stringify(newProducts));
         products =newProducts;
-        displayProducts(products)
+        products.forEach(product => categoriesSet.add(product.category));
+        displayProducts(products);
+        populateCategoryFilter();
     }
     catch (error){
         console.log(error)
@@ -81,8 +83,27 @@ const searchProduct = ()=>{
     displayProducts(filteredproducts);
 }
 
+const filterByCategory = () => {
+    const category = document.getElementById("category-filter").value;
+    const filteredProducts = category ? products.filter(product => product.category === category) : products;
+    displayProducts(filteredProducts);
+}
+
+const populateCategoryFilter = () => {
+    const categoryFilter = document.getElementById("category-filter");
+    categoryFilter.innerHTML = "";
+    const allOption = document.createElement("option");
+    allOption.value = "";
+    allOption.textContent = "All Categories";
+    categoryFilter.appendChild(allOption);
+    categoriesSet.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+
 document.addEventListener("DOMContentLoaded",fetchProducts);
 
-
-const filterByCategory = () => {}
 document.addEventListener("onchange",filterByCategory);
