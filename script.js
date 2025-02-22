@@ -105,8 +105,9 @@ const populateCategoryFilter = () => {
 }
 
 const filterByPrice = () => {
-    const maxPrice = document.getElementById("price-filter").value;
-    const filteredProducts = products.filter(product => product.price <= maxPrice);
+    const maxPrice = document.getElementById("max_price").value;
+    const minPrice = document.getElementById("min_price").value;
+    const filteredProducts = products.filter(product => product.price <= maxPrice && product.price >= minPrice);
     displayProducts(filteredProducts);
 }
 
