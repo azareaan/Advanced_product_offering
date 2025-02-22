@@ -51,6 +51,8 @@ const showsimilarProducts = (category)=>{
 
 const displaySimilarProducts =(items)=>{
     const similarProducts= document.getElementById("similar-products");
+    const similarProducts_title= document.getElementById("similar_products_title");
+    similarProducts_title.style.display = "block";
     similarProducts.innerHTML="";
     if(items.length ===0){
         similarProducts.innerHTML="<p>No Similar Products Found</p>";
