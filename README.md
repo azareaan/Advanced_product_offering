@@ -1,1 +1,1 @@
-GitHub Pages link:  https://github.com/azareaan/Advanced_product_offering/settings/pages
+GitHub Pages link:  https://azareaan.github.io/Advanced_product_offering/
