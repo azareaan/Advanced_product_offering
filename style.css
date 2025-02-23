@@ -23,6 +23,12 @@ input{
     background: white;
     padding: 15px;
     border-radius: 8px;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     text-align: center;
 }
@@ -40,8 +46,31 @@ input{
     border-radius: 4px;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .product-card button:hover{
     background-color: #13709a;
+}
+
+.myCart{
+    padding: 7px 18px;
+    background-color: #007fbb;
+    border: 1px solid #13709a;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+
+
+    position: fixed;
+    top: 20px;
+    right: 15px;
+}
+
+.myCart:hover{
+    background-color: #13709a;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
 }

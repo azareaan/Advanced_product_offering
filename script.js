@@ -2,6 +2,7 @@ const API_URL="https://fakestoreapi.com/products";
 let products = [];
 let selectedCategory=null;
 let categoriesSet = new Set();
+const cart = JSON.parse(localStorage.getItem("cart")) || []; 
 
 const fetchProducts = async () =>{
     try{
@@ -38,6 +39,7 @@ const displayProducts =(items)=>{
             <h4>${product.title}</h4>
             <p>Price: ${product.price}</p>
             <button onclick="showsimilarProducts(\`${product.category}\`)">Similar Products</button>
+            <button onclick="addtoCart(\`${product.id}\`)">add to cart</button>
         `
         productList.appendChild(productCard)
     })
@@ -68,6 +70,15 @@ const displaySimilarProducts =(items)=>{
         `
         similarProducts.appendChild(productCard)
     })
+}
+
+const addtoCart = (productId) => {
+    const product = products.find(p => p.id == productId);
+    if (product) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        alert(`Added ${product.title} to cart.`);
+    }
 }
 
 let debounceTimeout;
