@@ -1,8 +1,10 @@
 const API_URL="https://fakestoreapi.com/products";
 let products = [];
-let selectedCategory=null;
+let selectedCategory = JSON.parse(localStorage.getItem("selectedCategory")) || [];
 let categoriesSet = new Set();
-const cart = JSON.parse(localStorage.getItem("cart")) || []; 
+let maxPrice = JSON.parse(localStorage.getItem("maxPrice")) || [];
+let minPrice = JSON.parse(localStorage.getItem("minPrice")) || [];
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const fetchProducts = async () =>{
     try{
@@ -16,8 +18,32 @@ const fetchProducts = async () =>{
         localStorage.setItem("products",JSON.stringify(newProducts));
         products =newProducts;
         products.forEach(product => categoriesSet.add(product.category));
+
+        if (maxPrice.length > 0 || minPrice.length > 0) {
+            if (maxPrice.length > 0 && minPrice.length > 0) {
+                document.getElementById("max_price").innerHTML = maxPrice;
+                document.getElementById("max_price").value = maxPrice;
+                document.getElementById("min_price").innerHTML = minPrice;
+                document.getElementById("min_price").value = minPrice;
+
+                products = products.filter(product => product.price <= maxPrice && product.price >= minPrice);
+            } else if (maxPrice.length > 0) {
+                document.getElementById("max_price").innerHTML = maxPrice;
+                document.getElementById("max_price").value = maxPrice;
+
+                products = products.filter(product => product.price <= maxPrice);
+            } else if (minPrice.length > 0) {
+                document.getElementById("min_price").innerHTML = minPrice;
+                document.getElementById("min_price").value = minPrice;
+
+                products = products.filter(product => product.price >= minPrice);
+                
+            }
+        }
+
         displayProducts(products);
         populateCategoryFilter();
+
     }
     catch (error){
         console.log(error)
@@ -47,6 +73,7 @@ const displayProducts =(items)=>{
 
 const showsimilarProducts = (category)=>{
     selectedCategory =category;
+    localStorage.setItem("selectedCategory",JSON.stringify(selectedCategory));
     const similarProducts = products.filter(product => product.category === category);
     displaySimilarProducts(similarProducts);
 }
@@ -97,8 +124,9 @@ const searchProduct = ()=>{
 }
 
 const filterByCategory = () => {
-    const category = document.getElementById("category-filter").value;
-    const filteredProducts = category ? products.filter(product => product.category === category) : products;
+    selectedCategory = document.getElementById("category-filter").value;
+    localStorage.setItem("selectedCategory",JSON.stringify(selectedCategory));
+    const filteredProducts = selectedCategory ? products.filter(product => product.category === selectedCategory) : products;
     displayProducts(filteredProducts);
 }
 
@@ -115,14 +143,32 @@ const populateCategoryFilter = () => {
         option.textContent = category;
         categoryFilter.appendChild(option);
     });
+    if (selectedCategory) {
+        categoryFilter.value = selectedCategory;
+        filterByCategory();
+    }
 }
 
 const filterByPrice = () => {
-    const maxPrice = document.getElementById("max_price").value;
-    const minPrice = document.getElementById("min_price").value;
-    const filteredProducts = maxPrice || minPrice ?
-    products.filter(product => product.price <= maxPrice && product.price >= minPrice) : products;
-    displayProducts(filteredProducts);
+    maxPrice = document.getElementById("max_price").value;
+    localStorage.setItem("maxPrice",JSON.stringify(maxPrice));
+    minPrice = document.getElementById("min_price").value;
+    localStorage.setItem("minPrice",JSON.stringify(minPrice));
+    products = JSON.parse(localStorage.getItem("products"));
+    products.forEach(product => categoriesSet.add(product.category));
+    if (maxPrice.length > 0 || minPrice.length > 0) {
+        if (maxPrice.length > 0 && minPrice.length > 0) {
+            products = products.filter(product => product.price <= maxPrice && product.price >= minPrice);
+            products = selectedCategory ? products.filter(product => product.category === selectedCategory) : products;
+        } else if (maxPrice.length > 0) {
+            products = products.filter(product => product.price <= maxPrice);
+            products = selectedCategory ? products.filter(product => product.category === selectedCategory) : products;
+        } else if (minPrice.length > 0) {            
+            products = products.filter(product => product.price >= minPrice);
+            products = selectedCategory ? products.filter(product => product.category === selectedCategory) : products;   
+        }
+    }
+    displayProducts(products);
 }
 
 document.addEventListener("DOMContentLoaded",fetchProducts);
